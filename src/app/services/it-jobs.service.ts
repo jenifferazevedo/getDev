@@ -14,7 +14,8 @@ export class ItJobsService {
   public httpOption: {};
 
   constructor(public http: HttpClient) {
-    this.listUrl = `${environment.itListJobUrl}`;
+    this.listUrl = environment.itListJobUrl;
+    this.searchUrl = environment.itSearchJobUrl;
 
     this.httpOption = {
       params: new HttpParams({
@@ -25,10 +26,28 @@ export class ItJobsService {
   listJobs(): Observable<ListaJob> {
     return this.http.get<ListaJob>(this.listUrl, this.httpOption);
   }
-  nextListJob(page: number): Observable<ListaJob> {
+
+  pageListJob(page: number): Observable<ListaJob> {
     return this.http.get<ListaJob>(this.listUrl, {
       params: new HttpParams({
         fromString: `api_key=${this.apiKey}&page=${page}`,
+      }),
+    });
+  }
+
+  searchJob(
+    search?: string,
+    local?: string,
+    tipo?: string,
+    contrato?: string
+  ): Observable<ListaJob> {
+    return this.http.get<ListaJob>(this.searchUrl, {
+      params: new HttpParams({
+        fromString: `api_key=${this.apiKey}${
+          search && search !== '' ? `&q=${search}` : ''
+        }${tipo && tipo !== '' ? `&type=${tipo}` : ''}${
+          contrato && contrato !== '' ? `&contract=${contrato}` : ''
+        }${local && local !== '' ? `&location=${local}` : ''}`,
       }),
     });
   }
