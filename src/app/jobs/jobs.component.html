@@ -84,5 +84,13 @@
         </mdb-card-footer>
       </mdb-card>
     </div>
+    <div>
+      <button *ngIf="listJobs.page > 1" class="btn-primary">
+        <mdb-icon fas icon="chevron-left"></mdb-icon>
+      </button>
+      <button>
+        <mdb-icon fas icon="chevron-right" class="btn-primary"></mdb-icon>
+      </button>
+    </div>
   </div>
 </div>
