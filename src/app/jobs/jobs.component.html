@@ -1,0 +1,88 @@
+<div *ngIf="listJobs">
+  <div>
+    <p class="text-right">
+      Total de vagas: {{ listJobs ? listJobs.total : 0 }}
+    </p>
+    <div>
+      <mdb-card *ngFor="let result of results" class="my-5">
+        <div class="d-flex flex-row">
+          <div class="view overlay waves-light imgCard" mdbWavesEffect>
+            <mdb-card-img [src]="result.company.logo"></mdb-card-img>
+            <a>
+              <div class="mask rgba-white-slight"></div>
+            </a>
+          </div>
+
+          <mdb-card-body>
+            <mdb-card-title>
+              <h4>{{ result.title }}</h4>
+            </mdb-card-title>
+            <hr />
+            <div class="d-flex">
+              <div>
+                <small>{{ result.company.name }}</small>
+                <p *ngFor="let type of result.types" class="d-block">
+                  {{ type.name }}
+                </p>
+              </div>
+              <h3
+                *ngFor="let location of result.locations"
+                class="ml-auto mr-2"
+              >
+                {{ location.name }}
+              </h3>
+            </div>
+            <div class="text-center">
+              <div class="text-left" mdbCollapse #test="bs-collapse">
+                <hr />
+                <p
+                  class="font-small grey-dark-text mb-0"
+                  [innerHTML]="result.body"
+                ></p>
+              </div>
+              <button
+                mdbBtn
+                color="primary"
+                class="waves-light"
+                type="button"
+                (click)="test.toggle()"
+                mdbWavesEffect
+              >
+                Toggle collapse
+              </button>
+            </div>
+          </mdb-card-body>
+        </div>
+        <mdb-card-footer class="mdb-color lighten-3 text-center p-0">
+          <ul class="list-unstyled list-inline font-small mt-3">
+            <li class="list-inline-item pr-2 white-text">
+              Publicada em: {{ result.publishedAt | date: "dd/MM/yyyy" }}
+            </li>
+            <li class="list-inline-item" *ngIf="result.company.url_twitter">
+              <a href="#" class="white-text">
+                <mdb-icon fab icon="twitter" class="pr-1"> </mdb-icon
+              ></a>
+            </li>
+            <li
+              class="list-inline-item pr-2"
+              *ngIf="result.company.url_facebook"
+            >
+              <a href="#" class="white-text">
+                <mdb-icon fab icon="facebook-f" class="pr-1"> </mdb-icon
+              ></a>
+            </li>
+            <li
+              class="list-inline-item pr-2"
+              *ngIf="result.company.url_linkedin"
+            >
+              <a href="#" class="white-text">
+                <mdb-icon fab icon="linkedin-in" class="pr-1 iconMenor">
+                </mdb-icon
+              ></a>
+            </li>
+          </ul>
+        </mdb-card-footer>
+      </mdb-card>
+    </div>
+  </div>
+</div>
