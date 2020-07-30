@@ -1,0 +1,209 @@
+<div *ngIf="listJobs">
+  <div class="row">
+    <div class="col-xl-12">
+      <p class="text-right">
+        Total de vagas: {{ listJobs ? listJobs.total : 0 }}
+      </p>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-xl-8">
+      <div>
+        <div>
+          <mdb-card *ngFor="let result of results" class="my-5">
+            <div class="d-flex flex-row">
+              <div class="view overlay waves-light imgCard p-2" mdbWavesEffect>
+                <mdb-card-img
+                  [src]="result.company.logo"
+                  *ngIf="result.company.logo"
+                ></mdb-card-img>
+                <mdb-card-img
+                  src="../../assets/logo.svg"
+                  *ngIf="!result.company.logo"
+                ></mdb-card-img>
+                <a>
+                  <div class="mask rgba-white-slight"></div>
+                </a>
+              </div>
+
+              <mdb-card-body>
+                <mdb-card-title>
+                  <h4>{{ result.title }}</h4>
+                </mdb-card-title>
+                <hr />
+                <div class="d-flex">
+                  <div>
+                    <small>{{ result.company.name }}</small>
+                    <p *ngFor="let type of result.types" class="d-block">
+                      {{ type.name }}
+                    </p>
+                  </div>
+                  <h3
+                    *ngFor="let location of result.locations"
+                    class="ml-auto mr-2"
+                  >
+                    {{ location.name }}
+                  </h3>
+                </div>
+                <div class="text-center">
+                  <div class="text-left" mdbCollapse #test="bs-collapse">
+                    <hr />
+                    <p
+                      class="font-small grey-dark-text mb-0"
+                      [innerHTML]="result.body"
+                    ></p>
+                  </div>
+                  <button
+                    mdbBtn
+                    color="primary"
+                    class="waves-light"
+                    type="button"
+                    (click)="test.toggle()"
+                    mdbWavesEffect
+                  >
+                    Mais Informação
+                  </button>
+                </div>
+              </mdb-card-body>
+            </div>
+            <mdb-card-footer class="mdb-color lighten-3 text-center p-0">
+              <ul class="list-unstyled list-inline font-small mt-3">
+                <li class="list-inline-item pr-2 white-text">
+                  Publicada em: {{ result.publishedAt | date: "dd/MM/yyyy" }}
+                </li>
+                <li class="list-inline-item" *ngIf="result.company.url_twitter">
+                  <a href="#" class="white-text">
+                    <mdb-icon fab icon="twitter" class="pr-1"> </mdb-icon
+                  ></a>
+                </li>
+                <li
+                  class="list-inline-item pr-2"
+                  *ngIf="result.company.url_facebook"
+                >
+                  <a href="#" class="white-text">
+                    <mdb-icon fab icon="facebook-f" class="pr-1"> </mdb-icon
+                  ></a>
+                </li>
+                <li
+                  class="list-inline-item pr-2"
+                  *ngIf="result.company.url_linkedin"
+                >
+                  <a href="#" class="white-text">
+                    <mdb-icon fab icon="linkedin-in" class="pr-1 iconMenor">
+                    </mdb-icon
+                  ></a>
+                </li>
+              </ul>
+            </mdb-card-footer>
+          </mdb-card>
+        </div>
+        <div class="d-flex align-content-center">
+          <button
+            *ngIf="listJobs.page > 1"
+            class="btn btn-primary"
+            (click)="pageList(listJobs.page - 1)"
+          >
+            <mdb-icon fas icon="chevron-left"></mdb-icon>
+          </button>
+          <p
+            class="flex-grow-1 text-center m-0 align-self-center"
+            [ngStyle]="{ 'padding-left': listJobs.page <= 1 ? '90px' : '0' }"
+          >
+            - {{ listJobs.page }} -
+          </p>
+          <button class="btn btn-primary" (click)="pageList(listJobs.page + 1)">
+            <mdb-icon fas icon="chevron-right"></mdb-icon>
+          </button>
+        </div>
+      </div>
+    </div>
+    <div class="col-xl-4">
+      <div>
+        <div class="md-form">
+          <div class="d-flex">
+            <label for="form1" class="">Search</label>
+            <input
+              mdbInput
+              type="text"
+              id="form1"
+              class="form-control"
+              [(ngModel)]="search"
+            />
+            <mdb-icon
+              fas
+              icon="search"
+              aria-hidden="true"
+              class="mt-2"
+            ></mdb-icon>
+          </div>
+          <br />
+          Local:
+          <select
+            class="browser-default custom-select mb-2"
+            [(ngModel)]="local"
+          >
+            <option value="">Local</option>
+            <option value="1">Aveiro</option>
+            <option value="2">Açores</option>
+            <option value="3">Beja</option>
+            <option value="4">Braga</option>
+            <option value="5">Bragança</option>
+            <option value="6">Castelo Branco</option>
+            <option value="8">Coimbra</option>
+            <option value="9">Faro</option>
+            <option value="10">Évora</option>
+            <option value="11">Guarda</option>
+            <option value="12">Portalegre</option>
+            <option value="13">Leiria</option>
+            <option value="14">Lisboa</option>
+            <option value="15">Madeira</option>
+            <option value="16">Viseu</option>
+            <option value="17">Setúbal</option>
+            <option value="18">Porto</option>
+            <option value="20">Santarém</option>
+            <option value="21">Vila Real</option>
+            <option value="22">Viana do Castelo</option>
+            <option value="29">Internacional</option>
+          </select>
+          Tipo:
+          <select class="browser-default custom-select mb-2" [(ngModel)]="tipo">
+            <option value="">Tipo</option>
+            <option value="1">Full-time</option>
+            <option value="2">Part-time</option>
+          </select>
+          Contrato:
+          <select
+            class="browser-default custom-select mb-2"
+            [(ngModel)]="contrato"
+          >
+            <option value="">Contrato</option>
+            <option value="3">Estágio profissional</option>
+            <option value="5">Estágio Académico</option>
+            <option value="1">Contrato a termo</option>
+            <option value="2">Contrato sem termo</option>
+            <option value="4">Prestação de serviços</option>
+          </select>
+          <button class="btn btn-primary" (click)="searchJob()">
+            Search
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div *ngIf="!listJobs">
+  <div class="row">
+    <div
+      class="col-xl-12 d-flex justify-content-md-center align-items-center"
+      style="height: 75.4vh; width: 77vw;"
+    >
+      <div
+        class="spinner-grow text-primary"
+        style="width: 3rem; height: 3rem;"
+        role="status"
+      >
+        <span class="sr-only">Loading...</span>
+      </div>
+    </div>
+  </div>
+</div>

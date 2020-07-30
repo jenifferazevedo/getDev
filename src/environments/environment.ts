@@ -3,7 +3,10 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
-  production: false
+  production: false,
+  itJobsKey: 'cfa208e3e25380a27ef379fc7c89b035',
+  itListJobUrl: 'https://api.itjobs.pt/job/list.json',
+  itSearchJobUrl: 'https://api.itjobs.pt/job/search.json',
 };
 
 /*
